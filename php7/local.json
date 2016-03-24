@@ -1,0 +1,7 @@
+{
+  "mysql.pass": "PASSWORD",
+  "mysql.user": "root",
+  "mysql.host": "mysql",
+  "pygments.enabled": true,
+  "storage.local-disk.path": "/data"
+}

@@ -1,0 +1,53 @@
+version: "2"
+
+services:
+  mysql:
+    build: ./mysql
+    image: 'naerymdan/phab-mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=D4jumpK8p05339D
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - back
+
+  php:
+    build: ./php7
+    image: 'naerymdan/phab-php7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=D4jumpK8p05339D
+    depends_on:
+      - mysql
+    volumes:
+      - phabricator-data:/srv
+      - phabricator-files:/data
+    networks:
+      - back
+
+  web:
+    build: ./nginx
+    image: 'naerymdan/phab-nginx'
+    depends_on:
+      - php
+    volumes:
+      - phabricator-data:/srv:ro
+      - phabricator-files:/data:ro
+    ports:
+      - '80:80'
+    networks:
+      - back
+      - front
+
+volumes:
+  mysql-data:
+    driver: local
+  phabricator-data:
+    driver: local
+  phabricator-files:
+    driver: local
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge
