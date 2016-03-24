@@ -21,6 +21,7 @@ services:
     volumes:
       - phabricator-data:/srv
       - phabricator-files:/data
+      - phabricator-repo:/repo
     networks:
       - back
 
@@ -44,6 +45,8 @@ volumes:
   phabricator-data:
     driver: local
   phabricator-files:
+    driver: local
+  phabricator-repo:
     driver: local
 
 networks:

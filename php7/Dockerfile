@@ -34,11 +34,11 @@ RUN chown www-data:www-data /local.json
 #Phabricator code folder
 RUN mkdir -p /srv && chown www-data:www-data /srv
 
-#Repository code folder
-RUN mkdir -p /var/repo && chown www-data:www-data /var/repo
-
 #File storage folder
 RUN mkdir -p /data && chown www-data:www-data /data
+
+#Code storage folder
+RUN mkdir -p /repo && chown www-data:www-data /repo
 
 #Set port
 EXPOSE 9000
