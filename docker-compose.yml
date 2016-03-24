@@ -5,7 +5,7 @@ services:
     build: ./mysql
     image: 'naerymdan/docker-compose-phabricator-mysql'
     environment:
-      - MYSQL_ROOT_PASSWORD=D4jumpK8p05339D
+      - MYSQL_ROOT_PASSWORD=SAMPLEPASSWORD
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -15,7 +15,7 @@ services:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
     environment:
-      - MYSQL_ROOT_PASSWORD=D4jumpK8p05339D
+      - MYSQL_ROOT_PASSWORD=SAMPLEPASSWORD
     depends_on:
       - mysql
     volumes:
