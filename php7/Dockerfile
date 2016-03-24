@@ -14,7 +14,8 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y build-essential software-properties-common language-pack-en-base
 RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
 RUN apt-get update
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes php-apcu php-cli php-fpm php-mysql php-curl php-gd php-intl php-imap php-mcrypt php-tidy php-json php-mbstring php-zip git python-pygments sendmail
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes php-apcu php-cli php-fpm php-mysql php-curl php-gd php-intl php-imap php-mcrypt php-tidy php-json php-mbstring php-zip git python-pygments
+RUN apt-get upgrade -y --force-yes
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Copy special configs
