@@ -10,13 +10,31 @@ ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
 # PHP 7.0 Installation
-RUN apt-get update
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y build-essential software-properties-common language-pack-en-base
-RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
-RUN apt-get update
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes php-apcu php-cli php-fpm php-mysql php-curl php-gd php-intl php-imap php-mcrypt php-tidy php-json php-mbstring php-zip git python-pygments
-RUN apt-get upgrade -y --force-yes
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
+        build-essential software-properties-commonlanguage-pack-en-base
+
+RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php \
+    && apt-get update \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes \
+	    php-apcu \
+		php-cli \
+		php-fpm \
+		php-mysql \
+		php-curl \
+		php-gd \
+		php-intl \
+		php-imap \
+		php-mcrypt \
+		php-tidy \
+		php-json \
+		php-mbstring \
+		php-zip \
+		git \
+		python-pygments
+		
+RUN apt-get upgrade -y --force-yes \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Copy special configs
 COPY php.ini         /etc/php/7.0/fpm/php.ini
