@@ -12,8 +12,8 @@ services:
       - back
 
   php:
-    build: ./alpine-php7
-    image: 'naerymdan/docker-compose-phabricator-alpine-php7'
+    build: ./php7
+    image: 'naerymdan/docker-compose-phabricator-php7'
     command: php-fpm7 -F
     environment:
       - MYSQL_ROOT_PASSWORD=SAMPLEPASSWORD
@@ -41,8 +41,8 @@ services:
       - front
 
   phd-pull:
-    build: ./alpine-php7
-    image: 'naerymdan/docker-compose-phabricator-alpine-php7'
+    build: ./php7
+    image: 'naerymdan/docker-compose-phabricator-php7'
     command: /srv/phabricator/bin/phd launch PhabricatorRepositoryPullLocalDaemon
     depends_on:
       - php
@@ -52,8 +52,8 @@ services:
       - phabricator-repo:/repo
 
   phd-task:
-    build: ./alpine-php7
-    image: 'naerymdan/docker-compose-phabricator-alpine-php7'
+    build: ./php7
+    image: 'naerymdan/docker-compose-phabricator-php7'
     command: /srv/phabricator/bin/phd launch PhabricatorTaskmasterDaemon
     depends_on:
       - php
@@ -63,8 +63,8 @@ services:
       - phabricator-repo:/repo
 
   phd-trig:
-    build: ./alpine-php7
-    image: 'naerymdan/docker-compose-phabricator-alpine-php7'
+    build: ./php7
+    image: 'naerymdan/docker-compose-phabricator-php7'
     command: /srv/phabricator/bin/phd launch PhabricatorTriggerDaemon
     depends_on:
       - php
