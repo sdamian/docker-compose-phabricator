@@ -60,15 +60,11 @@ COPY php-fpm.conf    /etc/php7/php-fpm.conf
 
 #Copy core local config
 COPY local.json   /local.json
-RUN chown nobody:nobody /local.json
 
 #Phabricator code, File storage, Code storage and missing PATH folder
 RUN mkdir -p /srv \
-    && chown nobody:nobody /srv \
     && mkdir -p /data \
-	&& chown nobody:nobody /data \
 	&& mkdir -p /repo \
-	&& chown nobody:nobody /repo \
 	&& mkdir -p /usr/local/sbin
 
 #Redirect the daemon logs

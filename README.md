@@ -16,6 +16,8 @@ A super compact Docker Compose setup with images based on [Alpine Linux][alpine]
 #Why?
 Phabricator is a pain to setup, especially in Docker. There is a lot of miscellaneous configuration needed and it requires multiple applications to run (database, web server, php-fpm and 4 php daemons!)
 
+*The whole thing can run on a single 5$/month Digital Ocean droplet with only 512MB of RAM!!!*
+
 #Usage
 Simply edit the ```docker-compose.yml``` file with the desired DB password and then call
 
