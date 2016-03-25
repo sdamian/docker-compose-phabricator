@@ -42,7 +42,7 @@ fi
 
 if [ "$@" == "PULL" ]; then
 	echo 'Waiting for configuration'
-	while [ -e /srv/phabricator/conf/local/local.json ]; do
+	while [ ! -e /srv/phabricator/conf/local/local.json ]; do
 		wait 1
 	done
 	echo 'Bootup Complete'
@@ -51,7 +51,7 @@ fi
 
 if [ "$@" == "TASK" ]; then
 	echo 'Waiting for configuration'
-	while [ -e /srv/phabricator/conf/local/local.json ]; do
+	while [ ! -e /srv/phabricator/conf/local/local.json ]; do
 		wait 1
 	done
 	echo 'Bootup Complete'
@@ -60,7 +60,7 @@ fi
 
 if [ "$@" == "TRIG" ]; then
 	echo 'Waiting for configuration'
-	while [ -e /srv/phabricator/conf/local/local.json ]; do
+	while [ ! -e /srv/phabricator/conf/local/local.json ]; do
 		wait 1
 	done
 	echo 'Bootup Complete'
