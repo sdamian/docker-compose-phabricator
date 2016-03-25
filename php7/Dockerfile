@@ -5,6 +5,7 @@ MAINTAINER Naerymdan <vincent.dev@gmail.com>
 
 RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
+#Install PHP7, Pygments and Git
 RUN apk upgrade -U \
     && apk --update add \
         php7 \
@@ -30,50 +31,46 @@ RUN apk upgrade -U \
         php7-zip \
 		git \
 		py-pygments \
+    && rm -rf /var/cache/apk/*
+
+#Build apcu & apcu_bc for PHP7
+RUN apk --update add \
 		autoconf \
 		php7-pear \
 		php7-dev \
-		alpine-sdk
-
-#Add build packages to build/install for apcu && apcu_bc
-RUN sed -i "s/exec \$PHP -C -n -q/exec \$PHP -C -q/g" /usr/bin/pecl \
+		alpine-sdk \
+    && sed -i "s/exec \$PHP -C -n -q/exec \$PHP -C -q/g" /usr/bin/pecl \
     && printf "\n" | pecl install apcu apcu_bc-beta \
     && echo "extension=apcu.so" > /etc/php7/conf.d/apcu.ini \
-    && echo "extension=apc.so" > /etc/php7/conf.d/z_apc.ini
-
-#Cleanup dev packages
-RUN apk del --purge \
-    autoconf \
-    php7-pear \
-    php7-dev \
-    alpine-sdk \
+    && echo "extension=apc.so"  > /etc/php7/conf.d/z_apc.ini \
+	&& apk del --purge \
+		autoconf \
+		php7-pear \
+		php7-dev \
+		alpine-sdk \
     && rm -rf /var/cache/apk/*
 	
-#Link php7 exec to more standard php name
-#Remove useless config
-RUN ln -s /usr/bin/php7 /usr/bin/php \
-    && rm -rf /etc/php7/php-fpm.d
-
-#Copy special configs
+#Copy configs for PHP7 and Phabricator
 COPY php.ini         /etc/php7/php.ini
 COPY php-fpm.conf    /etc/php7/php-fpm.conf
+COPY local.json      /local.json
+COPY entrypoint.sh   /
 
-#Copy core local config
-COPY local.json   /local.json
-
+#Link php7 exec to more standard php name
+#Remove useless config
 #Phabricator code, File storage, Code storage and missing PATH folder
-RUN mkdir -p /srv \
+#Redirect the daemon logs
+RUN ln -s /usr/bin/php7 /usr/bin/php \
+    && rm -rf /etc/php7/php-fpm.d \
+	&& mkdir -p /srv \
     && mkdir -p /data \
 	&& mkdir -p /repo \
-	&& mkdir -p /usr/local/sbin
-
-#Redirect the daemon logs
-RUN mkdir -p /var/tmp/phd/log \
+	&& mkdir -p /usr/local/sbin \
+	&& mkdir -p /var/tmp/phd/log \
     && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log
+    && chmod +x /entrypoint.sh
 
 #Set port
 EXPOSE 9000
 
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
