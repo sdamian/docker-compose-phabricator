@@ -67,7 +67,7 @@ RUN ln -s /usr/bin/php7 /usr/bin/php \
 	&& mkdir -p /repo \
 	&& mkdir -p /usr/local/sbin \
 	&& mkdir -p /var/tmp/phd/log \
-    && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log
+    && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log \
     && chmod +x /entrypoint.sh
 
 #Set port
