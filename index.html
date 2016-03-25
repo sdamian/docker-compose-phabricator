@@ -3,40 +3,82 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <title>Docker-compose-phabricator by naerymdan</title>
   </head>
 
   <body>
+    <div id="container">
+      <div class="inner">
 
-    <header>
-      <div class="container">
-        <h1>Docker-compose-phabricator</h1>
-        <h2>Extra light-weight docker installation of Phabricator with docker-compose</h2>
+        <header>
+          <h1>Docker-compose-phabricator</h1>
+          <h2>Extra light-weight docker installation of Phabricator with docker-compose</h2>
+        </header>
 
-        <section id="downloads">
-          <a href="https://github.com/naerymdan/docker-compose-phabricator/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/naerymdan/docker-compose-phabricator/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/naerymdan/docker-compose-phabricator" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/naerymdan/docker-compose-phabricator/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/naerymdan/docker-compose-phabricator/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/naerymdan/docker-compose-phabricator" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="phabricator-on-docker-compose" class="anchor" href="#phabricator-on-docker-compose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Phabricator on docker-compose</h1>
+
+<h2>
+<a id="db-layer-alpineedge-with-mariadb" class="anchor" href="#db-layer-alpineedge-with-mariadb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DB layer: Alpine:edge with MariaDB</h2>
+
+<p><a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-mysql:latest"><img src="https://img.shields.io/imagelayers/image-size/naerymdan/docker-compose-phabricator-mysql/latest.svg" alt="Image Size"></a>
+<a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-mysql:latest"><img src="https://img.shields.io/imagelayers/layers/naerymdan/docker-compose-phabricator-mysql/latest.svg" alt="Image Layers"></a></p>
+
+<h2>
+<a id="web-layer-alpineedge-with-nginx" class="anchor" href="#web-layer-alpineedge-with-nginx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Web layer: Alpine:edge with Nginx</h2>
+
+<p><a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-nginx:latest"><img src="https://img.shields.io/imagelayers/image-size/naerymdan/docker-compose-phabricator-nginx/latest.svg" alt="Image Size"></a>
+<a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-nginx:latest"><img src="https://img.shields.io/imagelayers/layers/naerymdan/docker-compose-phabricator-nginx/latest.svg" alt="Image Layers"></a></p>
+
+<h2>
+<a id="php-layer-ubuntu-based-quantumobjectdocker-baseimage1510-with-php7" class="anchor" href="#php-layer-ubuntu-based-quantumobjectdocker-baseimage1510-with-php7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PHP layer: Ubuntu-based quantumobject/docker-baseimage:15.10 with PHP7</h2>
+
+<p><a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-php7:latest"><img src="https://img.shields.io/imagelayers/image-size/naerymdan/docker-compose-phabricator-php7/latest.svg" alt="Image Size"></a>
+<a href="https://imagelayers.io/?images=naerymdan/docker-compose-phabricator-php7:latest"><img src="https://img.shields.io/imagelayers/layers/naerymdan/docker-compose-phabricator-php7/latest.svg" alt="Image Layers"></a></p>
+
+<p>A super compact Docker Compose setup with images based on [Alpine Linux][alpine]. Alpine core image is 5 MB and has access to a package repository that is as complete as any other.</p>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why?</h2>
+
+<p>Phabricator is a pain to setup, especially in Docker. There is a lot of miscellaneous configuration needed and it requires multiple applications to run  (database, web server, php-fpm and 5 php daemons!)</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Simply edit the docker-compose.yml file with the desired DB password and then call </p>
+
+<p><code>docker-compose up -d</code></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>The code in this repository, unless otherwise noted, is BSD licensed. See the <code>LICENSE</code> file in this repository.</p>
+        </section>
+
+        <footer>
+          Docker-compose-phabricator is maintained by <a href="https://github.com/naerymdan">naerymdan</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
       </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h1>
-<a id="docker-compose-phabricator" class="anchor" href="#docker-compose-phabricator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>docker-compose-phabricator</h1>
-
-<p>Extra light-weight docker installation of Phabricator with 3 containers</p>
-
-<p>Based on Alpine:edge as much as possible, but using Ubuntu for PHP until PHP7 password_hash SEGFAULT is fixed.</p>
-      </section>
     </div>
-
-    
   </body>
 </html>
