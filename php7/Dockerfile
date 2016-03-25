@@ -1,62 +1,79 @@
-FROM quantumobject/docker-baseimage:15.10
+FROM alpine:edge
 MAINTAINER Naerymdan <vincent.dev@gmail.com>
 ##
-# PHP  : 7.x
-##
+# PHP 7.X
 
-# Ensure UTF-8
-RUN locale-gen en_US.UTF-8
-ENV LANG       en_US.UTF-8
-ENV LC_ALL     en_US.UTF-8
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
-# PHP 7.0 Installation
-RUN apt-get update \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
-        build-essential software-properties-common language-pack-en-base
-
-RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php \
-    && apt-get update \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes \
-	    php-apcu \
-		php-cli \
-		php-fpm \
-		php-mysql \
-		php-curl \
-		php-gd \
-		php-intl \
-		php-imap \
-		php-mcrypt \
-		php-tidy \
-		php-json \
-		php-mbstring \
-		php-zip \
+RUN apk upgrade -U \
+    && apk --update add \
+        php7 \
+        php7-dom \
+        php7-ctype \
+        php7-curl \
+        php7-fpm \
+        php7-gd \
+        php7-intl \
+        php7-json \
+        php7-mbstring \
+        php7-mcrypt \
+        php7-mysqlnd \
+        php7-opcache \
+        php7-openssl \
+		php7-pcntl \
+        php7-pdo \
+        php7-pdo_mysql \
+        php7-posix \
+        php7-session \
+        php7-tidy \
+        php7-xml \
+        php7-zip \
 		git \
-		python-pygments
-		
-RUN apt-get upgrade -y --force-yes \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+		py-pygments \
+		autoconf \
+		php7-pear \
+		php7-dev \
+		alpine-sdk
+
+#Add build packages to build/install for apcu && apcu_bc
+RUN sed -i "s/exec \$PHP -C -n -q/exec \$PHP -C -q/g" /usr/bin/pecl \
+    && printf "\n" | pecl install apcu apcu_bc-beta \
+    && echo "extension=apcu.so" > /etc/php7/conf.d/apcu.ini \
+    && echo "extension=apc.so" > /etc/php7/conf.d/z_apc.ini
+
+#Cleanup dev packages
+RUN apk del --purge \
+    autoconf \
+    php7-pear \
+    php7-dev \
+    alpine-sdk \
+    && rm -rf /var/cache/apk/*
+	
+#Link php7 exec to more standard php name
+#Remove useless config
+RUN ln -s /usr/bin/php7 /usr/bin/php \
+    && rm -rf /etc/php7/php-fpm.d
 
 #Copy special configs
-COPY php.ini         /etc/php/7.0/fpm/php.ini
-COPY php-fpm.conf    /etc/php/7.0/fpm/php-fpm.conf
-COPY www.conf        /etc/php/7.0/fpm/pool.d/www.conf
-
-#Add the runit conf
-COPY service/   /etc/service/
-RUN find /etc/service -type f -print -exec chmod +x {} \;
+COPY php.ini         /etc/php7/php.ini
+COPY php-fpm.conf    /etc/php7/php-fpm.conf
 
 #Copy core local config
 COPY local.json   /local.json
-RUN chown www-data:www-data /local.json
+RUN chown nobody:nobody /local.json
 
-#Phabricator code folder
-RUN mkdir -p /srv && chown www-data:www-data /srv
+#Phabricator code, File storage, Code storage and missing PATH folder
+RUN mkdir -p /srv \
+    && chown nobody:nobody /srv \
+    && mkdir -p /data \
+	&& chown nobody:nobody /data \
+	&& mkdir -p /repo \
+	&& chown nobody:nobody /repo \
+	&& mkdir -p /usr/local/sbin
 
-#File storage folder
-RUN mkdir -p /data && chown www-data:www-data /data
-
-#Code storage folder
-RUN mkdir -p /repo && chown www-data:www-data /repo
+#Redirect the daemon logs
+RUN mkdir -p /var/tmp/phd/log \
+    && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log
 
 #Set port
 EXPOSE 9000

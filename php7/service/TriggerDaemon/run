@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-/srv/phabricator/bin/phd launch PhabricatorTriggerDaemon
