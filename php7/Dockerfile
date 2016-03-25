@@ -10,13 +10,13 @@ ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
 # PHP 7.0 Installation
-RUN apt-get update \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update \
+    &&  apt-get install -y \
         build-essential software-properties-commonlanguage-pack-en-base
 
-RUN LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php \
+RUN DEBIAN_FRONTEND="noninteractive" LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php \
     && apt-get update \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --force-yes \
+    &&  apt-get install -y --force-yes \
 	    php-apcu \
 		php-cli \
 		php-fpm \
