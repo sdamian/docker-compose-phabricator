@@ -24,5 +24,12 @@ Simply edit the ```docker-compose.yml``` file with the desired DB password and t
 
 ```docker-compose up -d```
 
+To configure the rest of the Phabricator configuration, simply use the helper script ```config.sh```:
+
+```
+chmod +x config.sh
+./config.sh set security.alternate-file-domain 'https://files.phabcdn.net/'
+```
+
 #License
 The code in this repository, unless otherwise noted, is BSD licensed. See the LICENSE file in this repository.
