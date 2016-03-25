@@ -37,7 +37,7 @@ if [ "$@" == "FPM" ]; then
 	/srv/phabricator/bin/storage upgrade --force
 	
 	echo 'Bootup Complete'
-	exec php-fpm7 -F
+	exec php-fpm7 -FR
 fi
 
 if [ "$@" == "PULL" ]; then
