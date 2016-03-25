@@ -1,5 +1,7 @@
 #!/bin/sh
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+
+#if 'php', 'task', 'pull', 'etc'... else write out and/or execute command
+if [ "$@" == "FPM" ]; then
 	if [ -d "/srv/phabricator" ]; then
 		echo 'Updating phabricator'
 		
@@ -14,9 +16,7 @@ if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
 		git -C /srv/phabricator stash pop
 
 		echo 'Finished updating phabricator'
-	fi
-
-	if [ ! -d "/srv/phabricator" ]; then
+	else
 		echo 'Cloning phabricator from source'
 		
 		git clone -b stable https://github.com/phacility/libphutil.git /srv/libphutil
@@ -35,11 +35,37 @@ if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
 
 	echo 'Upgrading database schema'
 	/srv/phabricator/bin/storage upgrade --force
-else
+	
+	echo 'Bootup Complete'
+	exec php-fpm7 -F
+fi
+
+if [ "$@" == "PULL" ]; then
+	echo 'Waiting for configuration'
 	while [ -e /srv/phabricator/conf/local/local.json ]; do
 		wait 1
 	done
+	echo 'Bootup Complete'
+	exec /srv/phabricator/bin/phd launch PhabricatorRepositoryPullLocalDaemon
 fi
 
-echo 'Bootup Complete'
+if [ "$@" == "TASK" ]; then
+	echo 'Waiting for configuration'
+	while [ -e /srv/phabricator/conf/local/local.json ]; do
+		wait 1
+	done
+	echo 'Bootup Complete'
+	exec /srv/phabricator/bin/phd launch PhabricatorTaskmasterDaemon
+fi
+
+if [ "$@" == "TRIG" ]; then
+	echo 'Waiting for configuration'
+	while [ -e /srv/phabricator/conf/local/local.json ]; do
+		wait 1
+	done
+	echo 'Bootup Complete'
+	exec /srv/phabricator/bin/phd launch PhabricatorTriggerDaemon
+fi
+
+echo "Start container with 'FPM', 'PULL', 'TASK' or 'TRIG' to start the appropriate daemon"
 exec "$@"

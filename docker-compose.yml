@@ -14,7 +14,7 @@ services:
   php:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
-    command: php-fpm7 -F
+    command: FPM
     environment:
       - MYSQL_ROOT_PASSWORD=SAMPLEPASSWORD
     depends_on:
@@ -43,7 +43,7 @@ services:
   phd-pull:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
-    command: /srv/phabricator/bin/phd launch PhabricatorRepositoryPullLocalDaemon
+    command: PULL
     depends_on:
       - php
     volumes:
@@ -54,7 +54,7 @@ services:
   phd-task:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
-    command: /srv/phabricator/bin/phd launch PhabricatorTaskmasterDaemon
+    command: TASK
     depends_on:
       - php
     volumes:
@@ -65,7 +65,7 @@ services:
   phd-trig:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
-    command: /srv/phabricator/bin/phd launch PhabricatorTriggerDaemon
+    command: TRIG
     depends_on:
       - php
     volumes:
