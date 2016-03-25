@@ -24,12 +24,12 @@ if [ ! -d "/srv/phabricator" ]; then
 	# Allow daemon to run foreground
     sed -i "s/\['daemonize'\] = true/\['daemonize'\] = false/g" /srv/phabricator/src/applications/daemon/management/PhabricatorDaemonManagementWorkflow.php
 	
-	mv /local.json /srv/phabricator/conf/local/local.json
+	cp /local.json /srv/phabricator/conf/local/local.json
 	echo 'Finished cloning phabricator'
+	
+    echo 'Synching DB pasword'
+    sed -i "s/\"mysql.pass\": \"[^\"]*\",/\"mysql.pass\": \"$MYSQL_ROOT_PASSWORD\",/g" /srv/phabricator/conf/local/local.json
 fi
-
-echo 'Synching DB pasword'
-sed -i "s/\"mysql.pass\": \"[^\"]*\",/\"mysql.pass\": \"$MYSQL_ROOT_PASSWORD\",/g" /srv/phabricator/conf/local/local.json
 
 echo 'Upgrading database schema'
 /srv/phabricator/bin/storage upgrade --force
