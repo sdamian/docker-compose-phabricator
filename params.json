@@ -1,0 +1,6 @@
+{
+  "name": "Docker-compose-phabricator",
+  "tagline": "Extra light-weight docker installation of Phabricator with docker-compose",
+  "body": "# docker-compose-phabricator\r\nExtra light-weight docker installation of Phabricator with 3 containers\r\n\r\n\r\nBased on Alpine:edge as much as possible, but using Ubuntu for PHP until PHP7 password_hash SEGFAULT is fixed.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
