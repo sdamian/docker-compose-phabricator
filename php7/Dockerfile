@@ -7,52 +7,14 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
 
 #Install PHP7, Pygments and Git
 RUN apk upgrade -U \
-    && apk --update add \
-        php7 \
-        php7-dom \
-        php7-ctype \
-        php7-curl \
-        php7-fpm \
-        php7-gd \
-        php7-intl \
-        php7-json \
-        php7-mbstring \
-        php7-mcrypt \
-        php7-mysqlnd \
-        php7-opcache \
-        php7-openssl \
-		php7-pcntl \
-        php7-pdo \
-        php7-pdo_mysql \
-        php7-posix \
-        php7-session \
-        php7-tidy \
-        php7-xml \
-        php7-zip \
-		git \
-		py-pygments \
+    && apk --update add php5 php5-fpm php5-apcu php5-cli php5-curl php5-gd php5-json php5-ldap \ 
+        php5-mysql php5-openssl php5-xml php5-iconv php5-ctype php5-pcntl php5-posix \
+        php5-dom php5-zip php5-pdo php5-pdo_mysql \
+         git py-pygments curl mercurial mysql-client \ 
     && rm -rf /var/cache/apk/*
 
-#Build apcu & apcu_bc for PHP7
-RUN apk --update add \
-		autoconf \
-		php7-pear \
-		php7-dev \
-		alpine-sdk \
-    && sed -i "s/exec \$PHP -C -n -q/exec \$PHP -C -q/g" /usr/bin/pecl \
-    && printf "\n" | pecl install apcu apcu_bc-beta \
-    && echo "extension=apcu.so" > /etc/php7/conf.d/apcu.ini \
-    && echo "extension=apc.so"  > /etc/php7/conf.d/z_apc.ini \
-	&& apk del --purge \
-		autoconf \
-		php7-pear \
-		php7-dev \
-		alpine-sdk \
-    && rm -rf /var/cache/apk/*
-	
 #Copy configs for PHP7 and Phabricator
-COPY php.ini         /etc/php7/php.ini
-COPY php-fpm.conf    /etc/php7/php-fpm.conf
+COPY php-fpm.conf    /etc/php5/php-fpm.conf
 COPY local.json      /local.json
 COPY entrypoint.sh   /
 
@@ -60,9 +22,7 @@ COPY entrypoint.sh   /
 #Remove useless config
 #Phabricator code, File storage, Code storage and missing PATH folder
 #Redirect the daemon logs
-RUN ln -s /usr/bin/php7 /usr/bin/php \
-    && rm -rf /etc/php7/php-fpm.d \
-	&& mkdir -p /srv \
+RUN mkdir -p /srv \
     && mkdir -p /data \
 	&& mkdir -p /repo \
 	&& mkdir -p /usr/local/sbin \

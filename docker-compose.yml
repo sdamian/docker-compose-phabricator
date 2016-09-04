@@ -35,7 +35,7 @@ services:
       - phabricator-data:/srv:ro
       - phabricator-files:/data:ro
     ports:
-      - '80:80'
+      - '40080:80'
     networks:
       - back
       - front
@@ -50,7 +50,9 @@ services:
       - phabricator-data:/srv
       - phabricator-files:/data
       - phabricator-repo:/repo
-
+    networks:
+      - back
+  
   phd-task:
     build: ./php7
     image: 'naerymdan/docker-compose-phabricator-php7'
@@ -61,6 +63,8 @@ services:
       - phabricator-data:/srv
       - phabricator-files:/data
       - phabricator-repo:/repo
+    networks:
+      - back
 
   phd-trig:
     build: ./php7
@@ -72,6 +76,8 @@ services:
       - phabricator-data:/srv
       - phabricator-files:/data
       - phabricator-repo:/repo
+    networks:
+      - back
 
 volumes:
   mysql-data:
