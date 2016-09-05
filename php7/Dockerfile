@@ -16,6 +16,7 @@ RUN apk upgrade -U \
 #Copy configs for PHP7 and Phabricator
 COPY php-fpm.conf    /etc/php5/php-fpm.conf
 COPY local.json      /local.json
+COPY php.ini         /etc/php5/php.ini
 COPY entrypoint.sh   /
 
 #Link php7 exec to more standard php name
@@ -23,8 +24,10 @@ COPY entrypoint.sh   /
 #Phabricator code, File storage, Code storage and missing PATH folder
 #Redirect the daemon logs
 RUN mkdir -p /srv \
+    && rm -rf /etc/php5/php-fpm.d \
     && mkdir -p /data \
 	&& mkdir -p /repo \
+    
 	&& mkdir -p /usr/local/sbin \
 	&& mkdir -p /var/tmp/phd/log \
     && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log \
