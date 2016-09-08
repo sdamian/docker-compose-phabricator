@@ -5,6 +5,8 @@
   "pygments.enabled": true,
   "storage.local-disk.path": "/data",
   "repository.default-local-path": "/repo",
+  "environment.append-paths": ["/usr/libexec/git-core/"],  
+  "phabricator.show-prototypes": true,
   "files.viewable-mime-types": {
     "image/jpeg": "image/jpeg",
     "image/jpg": "image/jpg",

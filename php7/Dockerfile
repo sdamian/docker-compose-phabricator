@@ -10,7 +10,7 @@ RUN apk upgrade -U \
     && apk --update add php5 php5-fpm php5-apcu php5-cli php5-curl php5-gd php5-json php5-ldap \ 
         php5-mysql php5-openssl php5-xml php5-iconv php5-ctype php5-pcntl php5-posix \
         php5-dom php5-zip php5-pdo php5-pdo_mysql \
-         git py-pygments curl mercurial mysql-client \ 
+        git py-pygments curl mercurial mysql-client sudo \ 
     && rm -rf /var/cache/apk/*
 
 #Copy configs for PHP7 and Phabricator

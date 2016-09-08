@@ -35,7 +35,7 @@ services:
       - phabricator-data:/srv:ro
       - phabricator-files:/data:ro
     ports:
-      - '40080:80'
+      - '61080:80'
     networks:
       - back
       - front
